@@ -6,6 +6,15 @@ pipeline {
        {
       step
         {
+        class MyTestClass(BaseCase):
+
+     def test_base(self):
+        self.open("data:text/html,<p>Hello<br><input></p>")
+        self.assert_element("html > body")  # selector
+        self.assert_text("Hello", "body p")  # text, selector
+        self.type("input", "Goodbye")  # selector, text
+        self.click("body p")  # selector
+
         echo "buliding the application .."
     }
     }
@@ -13,6 +22,35 @@ pipeline {
        {
       step
          {
+         from seleniumbase import BaseCase
+" This test fails on purpose to demonstrate
+    the logging capabilities of SeleniumBase.
+    >>> pytest test_fail.py --html=report.html
+    This creates ``report.html`` with details.
+    (Also find log files in ``latest_logs/``) """
+
+import pytest
+from seleniumbase import BaseCase
+
+
+class MyTestClass(BaseCase):
+
+    @pytest.mark.expected_failure
+    def test_find_army_of_robots_on_xkcd_desert_island(self):
+        self.open("https://xkcd.com/731/")
+        print("\n(This test fails on purpose)")
+        self.assert_element("div#ARMY_OF_ROBOTS", timeout=1)
+
+
+class MyTestClass(BaseCase):
+
+    def test_base(self):
+        self.open("data:text/html,<p>Hello<br><input></p>")
+        self.assert_element("html > body")  # selector
+        self.assert_text("Hello", "body p")  # text, selector
+        self.type("input", "Goodbye")  # selector, text
+        self.click("body p")  # selector
+
     echo " testing the application ..."
    }
    }
@@ -20,6 +58,47 @@ pipeline {
      {
    step
    {
+   import pytest
+from seleniumbase import BaseCase
+ 
+
+class MyTestSuite(BaseCase):
+
+    def test_1(self):
+        self.open("https://xkcd.com/1664/")
+        self.assert_text("Mycology", "div#ctitle", timeout=4)
+        for p in range(3):
+            self.click('a[rel="next"]')
+        self.assert_text("Algorithms", "div#ctitle", timeout=4)
+
+    @pytest.mark.expected_failure
+    def test_2(self):
+        print("\n(This test fails on purpose)")
+        self.open("https://xkcd.com/1675/")
+        raise Exception("FAKE EXCEPTION: This test fails on purpose.")
+
+    def test_3(self):
+        self.open("https://xkcd.com/1406/")
+        self.assert_text("Universal Converter Box", "div#ctitle", timeout=4)
+        self.open("https://xkcd.com/608/")
+        self.assert_text("Form", "div#ctitle", timeout=4)
+
+    @pytest.mark.expected_failure
+    def test_4(self):
+        print("\n(This test fails on purpose)")
+        self.open("https://xkcd.com/1670/")
+        self.assert_element("FakeElement.DoesNotExist", timeout=0.5)from seleniumbase import BaseCase
+
+		class MyTestClass(BaseCase):
+
+    def test_base(self):
+        self.open("data:text/html,<p>Hello<br><input></p>")
+        self.assert_element("html > body")  # selector
+        self.assert_text("Hello", "body p")  # text, selector
+        self.type("input", "Goodbye")  # selector, text
+        self.click("body p")  # selector
+
+
       echo "deplying the application .."
     }
    }
